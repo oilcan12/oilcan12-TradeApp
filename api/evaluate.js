@@ -1,5 +1,5 @@
 export const config = {
-  runtime: 'edge',
+  runtime: 'edge', // optional – remove if you want standard function
 };
 
 export default async function handler(req) {
@@ -25,23 +25,26 @@ export default async function handler(req) {
     dealer = "$6,000 – $7,500";
   }
 
-  return new Response(JSON.stringify({
-    tradeInRange: tradeIn,
-    retailRange: retail,
-    dealerRange: dealer,
-    suggestions: [
-      "Wash and polish",
-      "Touch-up paint",
-      "Replace torn seat",
-      "Grease pins",
-      "Show recent maintenance"
-    ],
-    marketOutlook: {
-      bestStrategy: "List in early spring",
-      strongestMonths: "March–June",
-      secondary: "September–October"
+  return new Response(
+    JSON.stringify({
+      tradeInRange: tradeIn,
+      retailRange: retail,
+      dealerRange: dealer,
+      suggestions: [
+        "Wash and polish",
+        "Touch-up paint",
+        "Replace torn seat",
+        "Grease pins",
+        "Show recent maintenance"
+      ],
+      marketOutlook: {
+        bestStrategy: "List in early spring",
+        strongestMonths: "March–June",
+        secondary: "September–October"
+      }
+    }),
+    {
+      headers: { 'Content-Type': 'application/json' },
     }
-  }), {
-    headers: { 'Content-Type': 'application/json' },
-  });
+  );
 }
