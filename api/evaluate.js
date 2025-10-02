@@ -1,11 +1,11 @@
-export const config = {
-  runtime: 'edge', // optional – remove if you want standard function
-};
+// api/evaluate.js
 
-export default async function handler(req) {
-  const data = await req.json();
-  const hours = parseInt(data.hours || 0);
-  const type = data.type || "Tractor";
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Only POST allowed' });
+  }
+
+  const { hours = 0, type = "Tractor" } = req.body;
 
   let tradeIn, retail, dealer;
 
@@ -25,26 +25,21 @@ export default async function handler(req) {
     dealer = "$6,000 – $7,500";
   }
 
-  return new Response(
-    JSON.stringify({
-      tradeInRange: tradeIn,
-      retailRange: retail,
-      dealerRange: dealer,
-      suggestions: [
-        "Wash and polish",
-        "Touch-up paint",
-        "Replace torn seat",
-        "Grease pins",
-        "Show recent maintenance"
-      ],
-      marketOutlook: {
-        bestStrategy: "List in early spring",
-        strongestMonths: "March–June",
-        secondary: "September–October"
-      }
-    }),
-    {
-      headers: { 'Content-Type': 'application/json' },
+  return res.status(200).json({
+    tradeInRange: tradeIn,
+    retailRange: retail,
+    dealerRange: dealer,
+    suggestions: [
+      "Wash and polish",
+      "Touch-up paint",
+      "Replace torn seat",
+      "Grease pins",
+      "Show recent maintenance"
+    ],
+    marketOutlook: {
+      bestStrategy: "List in early spring",
+      strongestMonths: "March–June",
+      secondary: "September–October"
     }
-  );
+  });
 }
