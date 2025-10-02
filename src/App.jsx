@@ -29,9 +29,13 @@ function App() {
       }
 
       const data = await response.json();
+
+      // ✅ Debug log – shows what the backend returned
+      console.log("✅ Received from API:", data);
+
       setReport(data);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("❌ Error fetching valuation:", error);
     }
   };
 
@@ -83,21 +87,40 @@ function App() {
       {report && (
         <div className="mt-6 bg-gray-100 p-4 rounded shadow">
           <h2 className="text-xl font-semibold mb-2">Valuation Report</h2>
-          <p><strong>Trade-In:</strong> {report.tradeInRange}</p>
-          <p><strong>Retail:</strong> {report.retailRange}</p>
-          <p><strong>Dealer:</strong> {report.dealerRange}</p>
+          <p>
+            <strong>Trade-In:</strong> {report.tradeInRange}
+          </p>
+          <p>
+            <strong>Retail:</strong> {report.retailRange}
+          </p>
+          <p>
+            <strong>Dealer:</strong> {report.dealerRange}
+          </p>
 
           <h3 className="mt-4 font-semibold">Suggestions:</h3>
           <ul className="list-disc list-inside">
-            {report.suggestions.map((tip, idx) => (
-              <li key={idx}>{tip}</li>
-            ))}
+            {report.suggestions &&
+              report.suggestions.map((tip, idx) => (
+                <li key={idx}>{tip}</li>
+              ))}
           </ul>
 
           <h3 className="mt-4 font-semibold">Market Outlook:</h3>
-          <p><strong>Best Strategy:</strong> {report.marketOutlook.bestStrategy}</p>
-          <p><strong>Strongest Months:</strong> {report.marketOutlook.strongestMonths}</p>
-          <p><strong>Secondary:</strong> {report.marketOutlook.secondary}</p>
+          {report.marketOutlook && (
+            <>
+              <p>
+                <strong>Best Strategy:</strong>{" "}
+                {report.marketOutlook.bestStrategy}
+              </p>
+              <p>
+                <strong>Strongest Months:</strong>{" "}
+                {report.marketOutlook.strongestMonths}
+              </p>
+              <p>
+                <strong>Secondary:</strong> {report.marketOutlook.secondary}
+              </p>
+            </>
+          )}
         </div>
       )}
     </div>
