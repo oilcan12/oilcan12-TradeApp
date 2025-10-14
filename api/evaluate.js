@@ -56,7 +56,7 @@ export default async function handler(req) {
       dealerRange: dealer,
       description,
       suggestions: [
-        "Grab it by the pussy",
+        "Is this really what you want to do with your life?",
         "Touch-up paint",
         "Replace torn seat",
         "Grease pins",
